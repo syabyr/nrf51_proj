@@ -59,17 +59,23 @@
  */
 int main(void)
 {
-    /* Configure board. */
-    bsp_board_leds_init();
-
-    /* Toggle LEDs. */
+    int i;
+    for(i=0;i<31;i++)
+    {
+        nrf_gpio_cfg_output(i);
+    }
+    //nrf_gpio_cfg_output(18);
+    //nrf_gpio_cfg_output(19);
     while (true)
     {
-        for (int i = 0; i < LEDS_NUMBER; i++)
+        for(i=0;i<31;i++)
         {
-            bsp_board_led_invert(i);
-            nrf_delay_ms(500);
+            nrf_gpio_pin_toggle(i);
         }
+        //nrf_gpio_pin_toggle(18);
+        //nrf_gpio_pin_toggle(19);
+        nrf_delay_ms(500);
+
     }
 }
 

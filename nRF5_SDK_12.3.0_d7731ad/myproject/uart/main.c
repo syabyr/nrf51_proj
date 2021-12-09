@@ -132,11 +132,11 @@ int main(void)
 
     const app_uart_comm_params_t comm_params =
       {
-          RX_PIN_NUMBER,
-          TX_PIN_NUMBER,
+          10,
+          9,
           RTS_PIN_NUMBER,
           CTS_PIN_NUMBER,
-          APP_UART_FLOW_CONTROL_ENABLED,
+          APP_UART_FLOW_CONTROL_DISABLED,
           false,
           UART_BAUDRATE_BAUDRATE_Baud115200
       };
@@ -149,6 +149,12 @@ int main(void)
                          err_code);
 
     APP_ERROR_CHECK(err_code);
+    /*
+    while(1)
+    {
+        app_uart_put('a');
+    }
+    */
 
 #ifndef ENABLE_LOOPBACK_TEST
     printf("\r\nStart: \r\n");
