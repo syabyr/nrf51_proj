@@ -59,21 +59,12 @@
  */
 int main(void)
 {
-    int i;
-    for(i=0;i<31;i++)
-    {
-        nrf_gpio_cfg_output(i);
-    }
-    //nrf_gpio_cfg_output(18);
-    //nrf_gpio_cfg_output(19);
+    nrf_gpio_cfg_output(18);
+    nrf_gpio_cfg_output(19);
     while (true)
     {
-        for(i=0;i<31;i++)
-        {
-            nrf_gpio_pin_toggle(i);
-        }
-        //nrf_gpio_pin_toggle(18);
-        //nrf_gpio_pin_toggle(19);
+        nrf_gpio_pin_toggle(18);
+        nrf_gpio_pin_toggle(19);
         nrf_delay_ms(500);
 
     }

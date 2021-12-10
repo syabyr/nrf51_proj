@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015 - 2017, Nordic Semiconductor ASA
+ * Copyright (c) 2014 - 2017, Nordic Semiconductor ASA
  * 
  * All rights reserved.
  * 
@@ -38,23 +38,38 @@
  * 
  */
 
-#ifndef NRF_SD_DEF_H__
-#define NRF_SD_DEF_H__
+/** @file
+ *
+ * @defgroup blinky_example_main main.c
+ * @{
+ * @ingroup blinky_example
+ * @brief Blinky Example Application main file.
+ *
+ * This file contains the source code for a sample application to blink LEDs.
+ *
+ */
 
+#include <stdbool.h>
 #include <stdint.h>
+#include "nrf_delay.h"
+#include "boards.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+/**
+ * @brief Function for application main entry.
+ */
+int main(void)
+{
+    nrf_gpio_cfg_output(18);
+    nrf_gpio_cfg_output(19);
+    while (true)
+    {
+        nrf_gpio_pin_toggle(18);
+        nrf_gpio_pin_toggle(19);
+        nrf_delay_ms(500);
 
-#define SD_PPI_CHANNELS_USED            0xFFF0FF00uL /**< PPI channels utilized by SotfDevice (not available to th spplication). */
-#define SD_PPI_GROUPS_USED              0x0000000CuL /**< PPI groups utilized by SoftDevice (not available to the application). */
-#define SD_TIMERS_USED                  0x00000001uL /**< Timers used by SoftDevice. */
-#define SD_SWI_USED                     0x0000003CuL /**< Software interrupts used by SoftDevice */
-
-
-#ifdef __cplusplus
+    }
 }
-#endif
 
-#endif /* NRF_SD_DEF_H__ */
+/**
+ *@}
+ **/

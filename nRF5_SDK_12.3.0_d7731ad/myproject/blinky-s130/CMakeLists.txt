@@ -42,10 +42,10 @@ project(nrf51822_xxaa C)
 
 set(MAIN_TARGET ${PROJECT_NAME}.out)
 
-set(LINKER_SCRIPT ${PROJECT_SOURCE_DIR}/nrf51_xxaa_gcc.ld)
+set(LINKER_SCRIPT ${PROJECT_SOURCE_DIR}/nrf51_xxaa_softdevice_gcc.ld)
 
 
-set(CMAKE_C_FLAGS "-T${LINKER_SCRIPT} -DNRF51 -DNRF51822 -DSWI_DISABLE0 -DBOARD_PCA10028 -DBSP_DEFINES_ONLY -DBLE_STACK_SUPPORT_REQD -DBSP_DEFINES_ONLY -mcpu=cortex-m0 -mthumb -mabi=aapcs --std=gnu99 -Wall -Werror -O3 -g3 -mfloat-abi=soft -ffunction-sections -fdata-sections -fno-strict-aliasing -fno-builtin --short-enums -lc -lnosys")
+set(CMAKE_C_FLAGS "-T${LINKER_SCRIPT} -DNRF51 -DNRF51822 -DSOFTDEVICE_PRESENT -DS130 -DBLE_STACK_SUPPORT_REQD -DNRF_SD_BLE_API_VERSION=2 -DSWI_DISABLE0 -DBOARD_PCA10028 -DBSP_DEFINES_ONLY -DBLE_STACK_SUPPORT_REQD -DBSP_DEFINES_ONLY -mcpu=cortex-m0 -mthumb -mabi=aapcs --std=gnu99 -Wall -Werror -O3 -g3 -mfloat-abi=soft -ffunction-sections -fdata-sections -fno-strict-aliasing -fno-builtin --short-enums -lc -lnosys")
 
 
 
@@ -73,6 +73,7 @@ include_directories(
     ${SDK_ROOT}/components/drivers_nrf/twi_master
     ${SDK_ROOT}/components/ble/ble_services/ble_ancs_c
     ${SDK_ROOT}/components/ble/ble_services/ble_ias_c
+    ${SDK_ROOT}/components/softdevice/s130/headers
     ${SDK_ROOT}/components/libraries/pwm
     ${SDK_ROOT}/components/libraries/usbd/class/cdc/acm
     ${SDK_ROOT}/components/libraries/usbd/class/hid/generic
@@ -82,14 +83,14 @@ include_directories(
     ${SDK_ROOT}/components/ble/ble_services/ble_gls
     ${SDK_ROOT}/components/libraries/fstorage
     ${SDK_ROOT}/components/drivers_nrf/i2s
-    $(PROJ_DIR)
+    ${PROJ_DIR}
     ${SDK_ROOT}/components/libraries/gpiote
     ${SDK_ROOT}/components/drivers_nrf/gpiote
-    ${SDK_ROOT}/components/drivers_nrf/nrf_soc_nosd
     ${SDK_ROOT}/components/boards
     ${SDK_ROOT}/components/drivers_nrf/common
     ${SDK_ROOT}/components/ble/ble_advertising
     ${SDK_ROOT}/components/drivers_nrf/adc
+    ${SDK_ROOT}/components/softdevice/s130/headers/nrf51
     ${SDK_ROOT}/components/ble/ble_services/ble_bas_c
     ${SDK_ROOT}/components/ble/ble_services/ble_hrs_c
     ${SDK_ROOT}/components/libraries/queue
@@ -105,6 +106,7 @@ include_directories(
     ${SDK_ROOT}/components/libraries/experimental_section_vars
     ${SDK_ROOT}/components/ble/ble_services/ble_ans_c
     ${SDK_ROOT}/components/libraries/slip
+    ${SDK_ROOT}/components/libraries/mem_manager
     ${SDK_ROOT}/external/segger_rtt
     ${SDK_ROOT}/components/libraries/csense_drv
     ${SDK_ROOT}/components/drivers_nrf/hal
@@ -116,7 +118,6 @@ include_directories(
     ${SDK_ROOT}/components/ble/ble_services/ble_dfu
     ${SDK_ROOT}/components/drivers_nrf/twis_slave
     ${SDK_ROOT}/components
-    ${SDK_ROOT}/components/drivers_nrf/usbd
     ${SDK_ROOT}/components/libraries/scheduler
     ${SDK_ROOT}/components/ble/ble_services/ble_lbs
     ${SDK_ROOT}/components/ble/ble_services/ble_hts
@@ -149,7 +150,7 @@ include_directories(
     ${SDK_ROOT}/components/libraries/crc32
     ${SDK_ROOT}/components/libraries/usbd/class/audio
     ${SDK_ROOT}/components/ble/peer_manager
-    ${SDK_ROOT}/components/libraries/mem_manager
+    ${SDK_ROOT}/components/drivers_nrf/swi
     ${SDK_ROOT}/components/ble/ble_services/ble_tps
     ${SDK_ROOT}/components/ble/ble_services/ble_dis
     ${SDK_ROOT}/components/device
@@ -164,7 +165,8 @@ include_directories(
     ${SDK_ROOT}/components/libraries/twi
     ${SDK_ROOT}/components/drivers_nrf/clock
     ${SDK_ROOT}/components/ble/ble_services/ble_rscs
-    ${SDK_ROOT}/components/drivers_nrf/swi
+    ${SDK_ROOT}/components/drivers_nrf/usbd
+    ${SDK_ROOT}/components/softdevice/common/softdevice_handler
     ${SDK_ROOT}/components/ble/ble_services/ble_hrs
     ${SDK_ROOT}/components/libraries/log/src
     
@@ -207,4 +209,11 @@ add_custom_target(flash
     COMMAND nrfjprog --program ${PROJECT_NAME}.hex -f nrf51 --sectorerase
     COMMAND nrfjprog --reset -f nrf51
         DEPENDS ${PROJECT_NAME}.hex
+    )
+
+add_custom_target(flash_softdevice
+    COMMAND nrfjprog -e
+    COMMAND nrfjprog --program ../${SDK_ROOT}/components/softdevice/s130/hex/s130_nrf51_2.0.1_softdevice.hex -f nrf51 --sectorerase
+    COMMAND nrfjprog --reset -f nrf51
+        DEPENDS ../${SDK_ROOT}/components/softdevice/s130/hex/s130_nrf51_2.0.1_softdevice.hex
     )
