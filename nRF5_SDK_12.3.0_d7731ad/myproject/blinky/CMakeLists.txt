@@ -56,6 +56,29 @@ set(CMAKE_C_FLAGS "-T${LINKER_SCRIPT} -DNRF51 -DNRF51822 -DSWI_DISABLE0 -DBOARD_
 
 add_link_options(-mthumb -mabi=aapcs -L ../${TEMPLATE_PATH}  -mcpu=cortex-m0 -Wl,--gc-sections --specs=nano.specs -lc -lnosys)
 
+set(SOURCE_FILES
+    ${SDK_ROOT}/components/libraries/log/src/nrf_log_backend_serial.c
+    ${SDK_ROOT}/components/libraries/log/src/nrf_log_frontend.c
+    ${SDK_ROOT}/components/libraries/util/app_error.c
+    ${SDK_ROOT}/components/libraries/util/app_error_weak.c
+    ${SDK_ROOT}/components/libraries/timer/app_timer.c
+    ${SDK_ROOT}/components/libraries/util/app_util_platform.c
+    ${SDK_ROOT}/components/libraries/hardfault/hardfault_implementation.c
+    ${SDK_ROOT}/components/libraries/util/nrf_assert.c
+    ${SDK_ROOT}/components/libraries/util/sdk_errors.c
+    ${SDK_ROOT}/components/boards/boards.c
+    ${SDK_ROOT}/components/drivers_nrf/clock/nrf_drv_clock.c
+    ${SDK_ROOT}/components/drivers_nrf/common/nrf_drv_common.c
+    ${SDK_ROOT}/components/drivers_nrf/uart/nrf_drv_uart.c
+    ${SDK_ROOT}/components/drivers_nrf/nrf_soc_nosd/nrf_nvic.c
+    ${SDK_ROOT}/components/drivers_nrf/nrf_soc_nosd/nrf_soc.c
+    ${PROJ_DIR}/main.c
+    ${SDK_ROOT}/external/segger_rtt/RTT_Syscalls_GCC.c
+    ${SDK_ROOT}/external/segger_rtt/SEGGER_RTT.c
+    ${SDK_ROOT}/external/segger_rtt/SEGGER_RTT_printf.c
+    ${SDK_ROOT}/components/toolchain/gcc/gcc_startup_nrf51.S
+    ${SDK_ROOT}/components/toolchain/system_nrf51.c
+    )
 
 include_directories(
     ${NRF_TOOLCHAIN}
@@ -170,29 +193,7 @@ include_directories(
     
 )
 
-set(SOURCE_FILES
-    ${SDK_ROOT}/components/libraries/log/src/nrf_log_backend_serial.c
-    ${SDK_ROOT}/components/libraries/log/src/nrf_log_frontend.c
-    ${SDK_ROOT}/components/libraries/util/app_error.c
-    ${SDK_ROOT}/components/libraries/util/app_error_weak.c
-    ${SDK_ROOT}/components/libraries/timer/app_timer.c
-    ${SDK_ROOT}/components/libraries/util/app_util_platform.c
-    ${SDK_ROOT}/components/libraries/hardfault/hardfault_implementation.c
-    ${SDK_ROOT}/components/libraries/util/nrf_assert.c
-    ${SDK_ROOT}/components/libraries/util/sdk_errors.c
-    ${SDK_ROOT}/components/boards/boards.c
-    ${SDK_ROOT}/components/drivers_nrf/clock/nrf_drv_clock.c
-    ${SDK_ROOT}/components/drivers_nrf/common/nrf_drv_common.c
-    ${SDK_ROOT}/components/drivers_nrf/uart/nrf_drv_uart.c
-    ${SDK_ROOT}/components/drivers_nrf/nrf_soc_nosd/nrf_nvic.c
-    ${SDK_ROOT}/components/drivers_nrf/nrf_soc_nosd/nrf_soc.c
-    ${PROJ_DIR}/main.c
-    ${SDK_ROOT}/external/segger_rtt/RTT_Syscalls_GCC.c
-    ${SDK_ROOT}/external/segger_rtt/SEGGER_RTT.c
-    ${SDK_ROOT}/external/segger_rtt/SEGGER_RTT_printf.c
-    ${SDK_ROOT}/components/toolchain/gcc/gcc_startup_nrf51.S
-    ${SDK_ROOT}/components/toolchain/system_nrf51.c
-    )
+
 
 add_executable(${MAIN_TARGET} ${SOURCE_FILES})
 

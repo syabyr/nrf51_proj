@@ -6,7 +6,7 @@ SDK_ROOT := ../..
 PROJ_DIR := ./
 
 $(OUTPUT_DIRECTORY)/nrf51822_xxaa.out: \
-  LINKER_SCRIPT  := ble_app_beacon_gcc_nrf51.ld
+  LINKER_SCRIPT  := nrf51_xxaa_softdevice_gcc.ld
 
 # Source files common to all targets
 SRC_FILES += \
