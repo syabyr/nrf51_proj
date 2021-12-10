@@ -120,6 +120,8 @@ static void uart_loopback_test()
 
 #endif
 
+#define RX_PIN 5
+#define TX_PIN 4
 
 /**
  * @brief Function for main application entry.
@@ -132,8 +134,8 @@ int main(void)
 
     const app_uart_comm_params_t comm_params =
       {
-          10,
-          9,
+          RX_PIN,
+          TX_PIN,
           RTS_PIN_NUMBER,
           CTS_PIN_NUMBER,
           APP_UART_FLOW_CONTROL_DISABLED,
