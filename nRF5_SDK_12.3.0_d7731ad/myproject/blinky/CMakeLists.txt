@@ -11,9 +11,9 @@ set(PROJECT_NAME nrf51822_xxaa)
 
 set(CMAKE_C_COMPILER_WORKS 1)
 
-CMAKE_FORCE_C_COMPILER(/Users/mybays/develop/efr32/toolchains/gnu_arm/7.2_2017q4/bin/arm-none-eabi-gcc GNU)
+CMAKE_FORCE_C_COMPILER(/usr/local/bin/arm-none-eabi-gcc GNU)
 
-set(tools /Users/mybays/develop/efr32/toolchains/gnu_arm/7.2_2017q4)
+set(tools /usr/local)
 set(CMAKE_CXX_COMPILER  ${tools}/bin/arm-none-eabi-g++)
 set(CMAKE_C_COMPILER    ${tools}/bin/arm-none-eabi-gcc)
 set(CMAKE_ASM_COMPILER  ${tools}/bin/arm-none-eabi-gcc)
@@ -56,30 +56,6 @@ set(CMAKE_C_FLAGS "-T${LINKER_SCRIPT} -DNRF51 -DNRF51822 -DSWI_DISABLE0 -DBOARD_
 
 add_link_options(-mthumb -mabi=aapcs -L ../${TEMPLATE_PATH}  -mcpu=cortex-m0 -Wl,--gc-sections --specs=nano.specs -lc -lnosys)
 
-set(SOURCE_FILES
-    ${SDK_ROOT}/components/libraries/log/src/nrf_log_backend_serial.c
-    ${SDK_ROOT}/components/libraries/log/src/nrf_log_frontend.c
-    ${SDK_ROOT}/components/libraries/util/app_error.c
-    ${SDK_ROOT}/components/libraries/util/app_error_weak.c
-    ${SDK_ROOT}/components/libraries/timer/app_timer.c
-    ${SDK_ROOT}/components/libraries/util/app_util_platform.c
-    ${SDK_ROOT}/components/libraries/hardfault/hardfault_implementation.c
-    ${SDK_ROOT}/components/libraries/util/nrf_assert.c
-    ${SDK_ROOT}/components/libraries/util/sdk_errors.c
-    ${SDK_ROOT}/components/boards/boards.c
-    ${SDK_ROOT}/components/drivers_nrf/clock/nrf_drv_clock.c
-    ${SDK_ROOT}/components/drivers_nrf/common/nrf_drv_common.c
-    ${SDK_ROOT}/components/drivers_nrf/uart/nrf_drv_uart.c
-    ${SDK_ROOT}/components/drivers_nrf/nrf_soc_nosd/nrf_nvic.c
-    ${SDK_ROOT}/components/drivers_nrf/nrf_soc_nosd/nrf_soc.c
-    ${PROJ_DIR}/main.c
-    ${SDK_ROOT}/external/segger_rtt/RTT_Syscalls_GCC.c
-    ${SDK_ROOT}/external/segger_rtt/SEGGER_RTT.c
-    ${SDK_ROOT}/external/segger_rtt/SEGGER_RTT_printf.c
-    ${SDK_ROOT}/components/toolchain/gcc/gcc_startup_nrf51.S
-    ${SDK_ROOT}/components/toolchain/system_nrf51.c
-    )
-
 include_directories(
     ${NRF_TOOLCHAIN}
     ${NRF_GCC}
@@ -105,7 +81,7 @@ include_directories(
     ${SDK_ROOT}/components/ble/ble_services/ble_gls
     ${SDK_ROOT}/components/libraries/fstorage
     ${SDK_ROOT}/components/drivers_nrf/i2s
-    $(PROJ_DIR)
+    ${PROJ_DIR}
     ${SDK_ROOT}/components/libraries/gpiote
     ${SDK_ROOT}/components/drivers_nrf/gpiote
     ${SDK_ROOT}/components/drivers_nrf/nrf_soc_nosd
@@ -193,7 +169,29 @@ include_directories(
     
 )
 
-
+set(SOURCE_FILES
+    ${SDK_ROOT}/components/libraries/log/src/nrf_log_backend_serial.c
+    ${SDK_ROOT}/components/libraries/log/src/nrf_log_frontend.c
+    ${SDK_ROOT}/components/libraries/util/app_error.c
+    ${SDK_ROOT}/components/libraries/util/app_error_weak.c
+    ${SDK_ROOT}/components/libraries/timer/app_timer.c
+    ${SDK_ROOT}/components/libraries/util/app_util_platform.c
+    ${SDK_ROOT}/components/libraries/hardfault/hardfault_implementation.c
+    ${SDK_ROOT}/components/libraries/util/nrf_assert.c
+    ${SDK_ROOT}/components/libraries/util/sdk_errors.c
+    ${SDK_ROOT}/components/boards/boards.c
+    ${SDK_ROOT}/components/drivers_nrf/clock/nrf_drv_clock.c
+    ${SDK_ROOT}/components/drivers_nrf/common/nrf_drv_common.c
+    ${SDK_ROOT}/components/drivers_nrf/uart/nrf_drv_uart.c
+    ${SDK_ROOT}/components/drivers_nrf/nrf_soc_nosd/nrf_nvic.c
+    ${SDK_ROOT}/components/drivers_nrf/nrf_soc_nosd/nrf_soc.c
+    ${PROJ_DIR}/main.c
+    ${SDK_ROOT}/external/segger_rtt/RTT_Syscalls_GCC.c
+    ${SDK_ROOT}/external/segger_rtt/SEGGER_RTT.c
+    ${SDK_ROOT}/external/segger_rtt/SEGGER_RTT_printf.c
+    ${SDK_ROOT}/components/toolchain/gcc/gcc_startup_nrf51.S
+    ${SDK_ROOT}/components/toolchain/system_nrf51.c
+    )
 
 add_executable(${MAIN_TARGET} ${SOURCE_FILES})
 
