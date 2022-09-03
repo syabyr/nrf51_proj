@@ -106,11 +106,7 @@ int main(void)
     
     uart_init();
     printf("esb_ptx start.\r\n");
-
-
-
     clocks_start();
-
     err_code = esb_init();
     APP_ERROR_CHECK(err_code);
 

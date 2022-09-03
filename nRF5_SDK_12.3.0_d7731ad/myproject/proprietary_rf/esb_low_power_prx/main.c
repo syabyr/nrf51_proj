@@ -1,59 +1,23 @@
-/**
- * Copyright (c) 2014 - 2017, Nordic Semiconductor ASA
- * 
- * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- * 
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- * 
- * 2. Redistributions in binary form, except as embedded into a Nordic
- *    Semiconductor ASA integrated circuit in a product or a software update for
- *    such product, must reproduce the above copyright notice, this list of
- *    conditions and the following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
- * 
- * 3. Neither the name of Nordic Semiconductor ASA nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- * 
- * 4. This software, with or without modification, must only be used with a
- *    Nordic Semiconductor ASA integrated circuit.
- * 
- * 5. Any software provided in binary form under this license must not be reverse
- *    engineered, decompiled, modified and/or disassembled.
- * 
- * THIS SOFTWARE IS PROVIDED BY NORDIC SEMICONDUCTOR ASA "AS IS" AND ANY EXPRESS
- * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL NORDIC SEMICONDUCTOR ASA OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
- * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * 
- */
-
-#include "nrf_esb.h"
-
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdio.h>
+#include "app_uart.h"
+#include "app_error.h"
 #include <string.h>
 #include "sdk_common.h"
 #include "nrf.h"
+#include "nrf_esb.h"
+#include "nrf_error.h"
 #include "nrf_esb_error_codes.h"
 #include "nrf_delay.h"
 #include "nrf_gpio.h"
 #include "nrf_error.h"
 #include "boards.h"
+
 #define NRF_LOG_MODULE_NAME "APP"
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
-
+#include "uart_init.h"
 #define LED_ON          0
 #define LED_OFF         1
 
@@ -71,15 +35,15 @@ void nrf_esb_event_handler(nrf_esb_evt_t const * p_event)
     switch (p_event->evt_id)
     {
         case NRF_ESB_EVENT_TX_SUCCESS:
-            NRF_LOG_DEBUG("SUCCESS\r\n");
+            printf("SUCCESS\r\n");
             break;
         case NRF_ESB_EVENT_TX_FAILED:
-            NRF_LOG_DEBUG("FAILED\r\n");
+            printf("FAILED\r\n");
             (void) nrf_esb_flush_tx();
             break;
         case NRF_ESB_EVENT_RX_RECEIVED:
             while (nrf_esb_read_rx_payload(&rx_payload) == NRF_SUCCESS) ;
-            NRF_LOG_DEBUG("Receiving packet: %x\r\n", rx_payload.data[0]);
+            printf("Receiving packet: %x\r\n", rx_payload.data[0]);
 
             switch (rx_payload.data[0] & 0xFUL)
             {
@@ -116,7 +80,7 @@ void nrf_esb_event_handler(nrf_esb_evt_t const * p_event)
                                | m_state[3] << 3;
             (void) nrf_esb_write_payload(&tx_payload);
 
-            NRF_LOG_DEBUG("Queue transmitt packet: %02x\r\n", tx_payload.data[0]);
+            printf("Queue transmitt packet: %02x\r\n", tx_payload.data[0]);
             break;
     }
 }
@@ -203,14 +167,17 @@ void power_manage( void )
 int main(void)
 {
     uint32_t err_code;
-    err_code = logging_init();
-    APP_ERROR_CHECK(err_code);
-    gpio_init();
+
+    //gpio_init();
+    bsp_board_leds_init();
+    
+    uart_init();
+    printf("esb_ptx start.\r\n");
     err_code = esb_init();
     APP_ERROR_CHECK(err_code);
     clocks_start();
 
-    NRF_LOG_DEBUG("Enhanced ShockBurst Receiver Example running.\r\n");
+    printf("Enhanced ShockBurst Receiver Example running.\r\n");
 
     err_code = nrf_esb_start_rx();
     APP_ERROR_CHECK(err_code);
