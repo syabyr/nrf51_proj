@@ -21,7 +21,7 @@
  modified 14 August 2010
  by Tom Igoe
  */
-
+#define SPI_INTERFACES_COUNT 1
 // the sensor communicates using SPI, so include the library:
 #include <SPI.h>
 
