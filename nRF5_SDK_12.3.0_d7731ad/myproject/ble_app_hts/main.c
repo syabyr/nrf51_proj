@@ -811,7 +811,15 @@ static void ble_stack_init(void)
 {
     uint32_t err_code;
 
-    nrf_clock_lf_cfg_t clock_lf_cfg = NRF_CLOCK_LFCLKSRC;
+    #define NRF_NEW_CLOCK_LFCLKSRC      {.source        = NRF_CLOCK_LF_SRC_RC,            \
+                                 .rc_ctiv       = 16,                                \
+                                 .rc_temp_ctiv  = 1,                                \
+                                 .xtal_accuracy = NRF_CLOCK_LF_XTAL_ACCURACY_20_PPM}
+
+    
+    //nrf_clock_lf_cfg_t clock_lf_cfg = NRF_CLOCK_LFCLKSRC;
+    //选择使用RC振荡器作为低频时钟源
+    nrf_clock_lf_cfg_t clock_lf_cfg = NRF_NEW_CLOCK_LFCLKSRC;
 
     // Initialize the SoftDevice handler module.
     SOFTDEVICE_HANDLER_INIT(&clock_lf_cfg, NULL);

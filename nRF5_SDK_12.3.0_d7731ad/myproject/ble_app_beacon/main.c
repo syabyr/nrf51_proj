@@ -57,6 +57,7 @@
 #include "app_timer.h"
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
+#include "uart_init.h"
 
 #define CENTRAL_LINK_COUNT              0                                 /**< Number of central links used by the application. When changing this number remember to adjust the RAM settings*/
 #define PERIPHERAL_LINK_COUNT           0                                 /**< Number of peripheral links used by the application. When changing this number remember to adjust the RAM settings*/
@@ -205,7 +206,15 @@ static void ble_stack_init(void)
 {
     uint32_t err_code;
 
-    nrf_clock_lf_cfg_t clock_lf_cfg = NRF_CLOCK_RC;
+    #define NRF_NEW_CLOCK_LFCLKSRC      {.source        = NRF_CLOCK_LF_SRC_RC,            \
+                                 .rc_ctiv       = 16,                                \
+                                 .rc_temp_ctiv  = 1,                                \
+                                 .xtal_accuracy = NRF_CLOCK_LF_XTAL_ACCURACY_20_PPM}
+
+    
+    //nrf_clock_lf_cfg_t clock_lf_cfg = NRF_CLOCK_LFCLKSRC;
+    //选择使用RC振荡器作为低频时钟源
+    nrf_clock_lf_cfg_t clock_lf_cfg = NRF_NEW_CLOCK_LFCLKSRC;
 
     // Initialize the SoftDevice handler module.
     SOFTDEVICE_HANDLER_INIT(&clock_lf_cfg, NULL);
@@ -239,6 +248,11 @@ static void power_manage(void)
  */
 int main(void)
 {
+    bsp_board_leds_init();
+    uart_init();
+
+    printf("\r\nStart: \r\n");
+
     uint32_t err_code;
     // Initialize.
     err_code = NRF_LOG_INIT(NULL);
