@@ -227,4 +227,4 @@ flash_softdevice:
 	openocd -f interface/stlink-v2.cfg  -f target/nrf51.cfg -c init -c "program $(SDK_ROOT)/components/softdevice/s130/hex/s130_nrf51_2.0.1_softdevice.hex verify reset exit"
 
 erase:
-	nrfjprog --eraseall -f nrf52
+	nrfjprog --eraseall -f nrf51
