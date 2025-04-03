@@ -1,0 +1,65 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
+{
+    "configurations": [
+        {
+            "name": "PlatformIO",
+            "includePath": [
+                "/Users/mybays/develop/develop.new/nrf51_proj/pio-bl600-examples/arduino-blink/include",
+                "/Users/mybays/develop/develop.new/nrf51_proj/pio-bl600-examples/arduino-blink/src",
+                "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/cores/nRF5",
+                "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/cores/nRF5/SDK/components/drivers_nrf/delay",
+                "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/cores/nRF5/SDK/components/device",
+                "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/cores/nRF5/SDK/components/toolchain",
+                "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/cores/nRF5/SDK/components/toolchain/CMSIS/Include",
+                "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/cores/nRF5/SDK/components/softdevice/s130/headers",
+                "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/variants/PCA1000X",
+                "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/libraries/SPI",
+                "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/libraries/Wire",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "/Users/mybays/develop/develop.new/nrf51_proj/pio-bl600-examples/arduino-blink/include",
+                    "/Users/mybays/develop/develop.new/nrf51_proj/pio-bl600-examples/arduino-blink/src",
+                    "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/cores/nRF5",
+                    "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/cores/nRF5/SDK/components/drivers_nrf/delay",
+                    "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/cores/nRF5/SDK/components/device",
+                    "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/cores/nRF5/SDK/components/toolchain",
+                    "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/cores/nRF5/SDK/components/toolchain/CMSIS/Include",
+                    "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/cores/nRF5/SDK/components/softdevice/s130/headers",
+                    "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/variants/PCA1000X",
+                    "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/libraries/SPI",
+                    "/Users/mybays/.platformio/packages/framework-arduinonordicnrf5/libraries/Wire",
+                    ""
+                ]
+            },
+            "defines": [
+                "PLATFORMIO=60116",
+                "PCA10000",
+                "NRF51_S130",
+                "ARDUINO=10805",
+                "F_CPU=16000000L",
+                "ARDUINO_ARCH_NRF5",
+                "NRF5",
+                "NRF51",
+                "S130",
+                "USE_LFXO",
+                ""
+            ],
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++11",
+            "compilerPath": "/Users/mybays/.platformio/packages/toolchain-gccarmnoneeabi@1.70201.0/bin/arm-none-eabi-gcc",
+            "compilerArgs": [
+                "-mthumb",
+                "-mcpu=cortex-m0",
+                ""
+            ]
+        }
+    ],
+    "version": 4
+}
