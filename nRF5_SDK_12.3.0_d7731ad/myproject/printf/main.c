@@ -5,7 +5,6 @@
 #include "app_error.h"
 #include "nrf_delay.h"
 #include "nrf.h"
-#include "bsp.h"
 #include "uart_init.h"
 
 
@@ -14,8 +13,6 @@
  */
 int main(void)
 {
-    bsp_board_leds_init();
-
     uart_init();
 
     printf("\r\nStart: \r\n");

@@ -1,7 +1,6 @@
 #include <stdint.h>
 #include "app_uart.h"
 #include "nrf.h"
-#include "bsp.h"
 #include "uart_init.h"
 
 #define MAX_TEST_DATA_BYTES     (15U)                /**< max number of test bytes to be used for tx and rx. */
@@ -27,8 +26,8 @@ int uart_init()
       {
           RX_PIN,
           TX_PIN,
-          RTS_PIN_NUMBER,
-          CTS_PIN_NUMBER,
+          -1,
+          -1,
           APP_UART_FLOW_CONTROL_DISABLED,
           false,
           UART_BAUDRATE_BAUDRATE_Baud115200
